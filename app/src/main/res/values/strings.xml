@@ -7,6 +7,7 @@
     <string name="btn_text_read_contacts">Read Contacts</string>
     <string name="btn_text_write_contacts">Write Contacts</string>
     <string name="hint_insert_new_number">Insert a new contact number...</string>
+    <string name="btn_text_check_connectivity">Check connectivity</string>
     <string-array name="words">
         <item>Android</item>
         <item>Activity</item>
