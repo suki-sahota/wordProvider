@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">wordProvider</string>
+    <string name="btn_text_get_me_a_word">Get me a word</string>
+    <string name="btn_text_get_me_the_list">Get me the list</string>
+    <string name="hint_insert_new_word">Insert a new contact name...</string>
+    <string name="btn_text_add_new_word">Add new word to WordProvider</string>
+    <string name="btn_text_read_contacts">Read Contacts</string>
+    <string name="btn_text_write_contacts">Write Contacts</string>
+    <string name="hint_insert_new_number">Insert a new contact number...</string>
+    <string-array name="words">
+        <item>Android</item>
+        <item>Activity</item>
+        <item>ContentProvider</item>
+        <item>ContentResolver</item>
+    </string-array>
+</resources>
