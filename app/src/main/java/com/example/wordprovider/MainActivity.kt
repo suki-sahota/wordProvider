@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         displayEntries()
     }
 
-    private fun insertAContact() { // Does not insert into the local WordProvider
+    private fun insertAContact() { // Add to ContactsContract; does not insert into local WordProvider
         val batchOperation
                 = arrayListOf<ContentProviderOperation>()
         batchOperation.add(ContentProviderOperation.newInsert(
@@ -132,7 +132,9 @@ class MainActivity : AppCompatActivity() {
             .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
             .build()
         )
-        batchOperation.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+        // Include phone number for contact
+        batchOperation.add(ContentProviderOperation.newInsert(
+            ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
             .withValue(
                 ContactsContract.Data.MIMETYPE,
@@ -149,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, "1")
             .build()
         )
-        // ------------
+        // Include name for contact
         batchOperation.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
             .withValue(
@@ -286,7 +288,7 @@ class MainActivity : AppCompatActivity() {
         // CAPABILITIES
         var internetCapable = false // Indicates that this network should be able to reach the internet.
         var netNotCongested = false // Indicates that this network is not congested.
-        var netNotMetered = false // If an application needs an un-metered network for a bulk transfer
+        var netNotMetered = false // If an application needs an un-metered network for a bulk transfer.
 
         // TRANSPORTS
         var bluetoothTransport = false // Indicates this network uses a Bluetooth transport.

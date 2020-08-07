@@ -11,13 +11,9 @@ import android.util.Log
 
 
 class WordProvider: ContentProvider() {
+
     override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
-        Log.d(TAG,
-            "insert: contentValues.getAsString(CONTENT_PATH) " +
-                    "is ${ contentValues?.getAsString(CONTENT_PATH) }")
-        Log.d(TAG, "insert: size of mData is ${ mData.size }")
-        // We replace mData with an array of size 4 when onCreate is called
-        mData.add(contentValues?.getAsString(CONTENT_PATH) ?: "")
+        contentValues?.let { mData.add(it.getAsString(CONTENT_PATH)) }
         return null
     }
 
@@ -35,7 +31,7 @@ class WordProvider: ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor? {
-        var id = 0
+        var id: Int
         when (uriMatcher.match(uri)) {
             0 -> {
                 id = ALL_ITEMS
@@ -67,11 +63,11 @@ class WordProvider: ContentProvider() {
         return cursor
     }
 
-    override fun update(p0: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
+    override fun update(uri: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
         return 0
     }
 
-    override fun delete(p0: Uri, p1: String?, p2: Array<out String>?): Int {
+    override fun delete(uri: Uri, p1: String?, p2: Array<out String>?): Int {
         return 0
     }
 
@@ -81,6 +77,7 @@ class WordProvider: ContentProvider() {
      * Init your Collection
      */
     override fun onCreate(): Boolean {
+        // Pre-populate ContentProvider
         context?.resources?.let {
             mData = it.getStringArray(R.array.words).toMutableSet()
         }
@@ -92,8 +89,8 @@ class WordProvider: ContentProvider() {
     /*
      * Defines the URI transaction of this CP
      */
-    override fun getType(p0: Uri): String? {
-        return when (uriMatcher.match(p0)) {
+    override fun getType(uri: Uri): String? {
+        return when (uriMatcher.match(uri)) {
             0 -> SINGLE_RECORD
             1 -> MULTIPLE_RECORD
             else -> throw NullPointerException() // Kotlin exception (distinct from Java)
